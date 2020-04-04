@@ -1,0 +1,13 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["dev"
+  "src"]
+
+ :dependencies
+ [[reagent "0.10.0"]]
+
+ :builds
+ {:dashboard {:target :browser
+              :output-dir "public/assets/app/js"
+	      :asset-path "/assets/app/js"
+	      :modules {:main {:entries [dashboard.core]}}}}}
