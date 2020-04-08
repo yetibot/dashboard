@@ -1,0 +1,8 @@
+;; shadow-cljs configuration
+{:lein true
+
+ :builds
+       {:dashboard {:target     :browser
+                    :output-dir "public/assets/app/js"
+                    :asset-path "/assets/app/js"
+                    :modules    {:main {:entries [dashboard.core]}}}}}
