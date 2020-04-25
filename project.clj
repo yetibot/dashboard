@@ -7,10 +7,18 @@
   :min-lein-version "2.9.1"
 
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [org.clojure/clojurescript "1.10.520"]
+
+                 ;; clojurescript and tooling
+                 [org.clojure/clojurescript "1.10.520" :scope "provided"]
                  [binaryage/devtools "1.0.0"]
                  [thheller/shadow-cljs "2.8.94"]
+
+                 ;; react
                  [reagent "0.10.0"]
+
+                 ;; logging
+                 [com.taoensso/timbre "4.10.0"]
+
                  ;; These has to be explicitly specified as lein does not
                  ;; properly manage dependency version conflicts :
                  ;; https://github.com/thheller/shadow-cljs/issues/488#issuecomment-486732296
