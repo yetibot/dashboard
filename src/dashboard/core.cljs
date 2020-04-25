@@ -1,6 +1,13 @@
 (ns dashboard.core
-    (:require [reagent.core :as r]
-              [reagent.dom :as rdom]))
+  (:require [reagent.core :as r]
+            [reagent.dom :as rdom]
+            [taoensso.timbre :as log
+             :refer-macros [log  trace  debug  info  warn  error  fatal  report
+                            logf tracef debugf infof warnf errorf fatalf reportf
+                            spy get-env]]
+            ["bloomer" :as bloomer]
+            ["react-router-dom" :as router]
+            [dashboard.components.search :refer [search]]))
 
 (enable-console-print!)
 
@@ -13,8 +20,24 @@
 (defn dashboard-app
   "The dashboard component"
   []
-  [:div.container
-   [:h1.title "And we are good to go!!!"]])
+  [:div "testing this"]
+  [:> router/BrowserRouter
+   [:div
+    [:> bloomer/Navbar {:class "is-white is-fixed-top"}
+     [:> bloomer/Container
+      [:> bloomer/NavbarStart
+       [:> bloomer/NavbarBrand
+        [:> bloomer/NavbarItem
+         [:> router/NavLink {:to "/"}
+          [:img {:style {:width 120
+                         :height 28}
+                 :class "yetibot-logo"
+                 :alt "Yetibot"
+                 :src "https://yetibot.com/img/yetibot_lambda_blue_with_grey.svg"}]]]]]
+      [:> bloomer/NavbarEnd
+       [:> bloomer/NavbarItem
+        [:> bloomer/Field
+         [search]]]]]]]])
 
 (defn start
     "Mounts the application root component in the DOM."
