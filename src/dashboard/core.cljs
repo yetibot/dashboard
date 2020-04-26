@@ -2,11 +2,12 @@
   (:require [reagent.core :as r]
             [reagent.dom :as rdom]
             [taoensso.timbre :as log
-             :refer-macros [log  trace  debug  info  warn  error  fatal  report
+             :refer-macros [log trace debug info warn error fatal report
                             logf tracef debugf infof warnf errorf fatalf reportf
                             spy get-env]]
-            ["bloomer" :as bloomer]
-            ["react-router-dom" :as router]
+            ["bloomer" :refer (Navbar Container NavbarStart NavbarBrand NavbarItem
+                                      Icon MenuList MenuLabel Menu Field NavbarEnd)]
+            ["react-router-dom" :refer (Route NavLink) :rename {BrowserRouter Router}]
             [dashboard.components.search :refer [search]]))
 
 (enable-console-print!)
@@ -20,85 +21,92 @@
 (defn nav-bar
   "Top nav bar"
   []
-  [:> bloomer/Navbar {:class "is-white is-fixed-top"}
-   [:> bloomer/Container
-    [:> bloomer/NavbarStart
-     [:> bloomer/NavbarBrand
-      [:> bloomer/NavbarItem
-       [:> router/NavLink {:to "/"}
+  [:> Navbar {:class "is-white is-fixed-top"}
+   [:> Container
+    [:> NavbarStart
+     [:> NavbarBrand
+      [:> NavbarItem
+       [:> NavLink {:to "/"}
         [:img {:style {:width  120
                        :height 28}
                :class "yetibot-logo"
                :alt   "Yetibot"
                :src   "https://yetibot.com/img/yetibot_lambda_blue_with_grey.svg"}]]]]]
-    [:> bloomer/NavbarEnd
-     [:> bloomer/NavbarItem
-      [:> bloomer/Field
+    [:> NavbarEnd
+     [:> NavbarItem
+      [:> Field
        [search]]]]]])
 
 (defn content-body
   "Content body"
   []
-  [:> bloomer/Container {:id "content/body"}
+  [:> Container {:id "content/body"}
    [:div {:class "columns"}
     [:div {:class "column is-2"}
-     [:> bloomer/Menu
+     [:> Menu
       ;; yetibot
-      [:> bloomer/MenuLabel "Yetibot"]
-      [:> bloomer/MenuList
+      [:> MenuLabel "Yetibot"]
+      [:> MenuList
        [:li
-        [:> router/NavLink {:exact true
+        [:> NavLink {:exact true
                              :to    "/"} "Dashboard"]]
        [:li
-        [:> router/NavLink {:to "/history"} "History"]]
+        [:> NavLink {:to "/history"} "History"]]
        [:li
-        [:> router/NavLink {:to "/users"} "Users"]]
+        [:> NavLink {:to "/users"} "Users"]]
        [:li
-        [:> router/NavLink {:to "/adapters"} "Adapters"]]
+        [:> NavLink {:to "/adapters"} "Adapters"]]
        [:li
-        [:> router/NavLink {:to "/aliases"} "Aliases"]]
+        [:> NavLink {:to "/aliases"} "Aliases"]]
        [:li
-        [:> router/NavLink {:to "/observers"} "Observers"]]
+        [:> NavLink {:to "/observers"} "Observers"]]
        [:li
-        [:> router/NavLink {:to "/cron"} "Cron tasks"]]
+        [:> NavLink {:to "/cron"} "Cron tasks"]]
        [:li
-        [:> router/NavLink {:to "/repl"} "REPL"]]]
+        [:> NavLink {:to "/repl"} "REPL"]]]
 
       ;; links
-      [:> bloomer/MenuLabel "Links"]
-      [:> bloomer/MenuList
+      [:> MenuLabel "Links"]
+      [:> MenuList
        [:li
         [:a {:href "https://yetibot.com"}
-         [:> bloomer/Icon {:is-size "small"
+         [:> Icon {:is-size "small"
                            :is-align "left"
                            :class "fa fa-external-link-alt"}]
          "Yetibot.com"]]
        [:li
         [:a {:href "https://github.com/yetibot/yetibot"}
-         [:> bloomer/Icon {:is-size "small"
+         [:> Icon {:is-size "small"
                            :is-align "left"
                            :class "fa fa-external-link-alt"}]
          "Github"]]
        [:li
         [:a {:href "https://yetibot.com/archives"}
-         [:> bloomer/Icon {:is-size "small"
+         [:> Icon {:is-size "small"
                            :is-align "left"
                            :class "fa fa-external-link-alt"}]
          "Blog"]]
        [:li
         [:a {:href "https://yetibot.com/user-guide"}
-         [:> bloomer/Icon {:is-size "small"
+         [:> Icon {:is-size "small"
                            :is-align "left"
                            :class "fa fa-external-link-alt"}]
          "Docs"]]]]]]])
 
+(defn content-container
+  []
+  [:> Container {:id "content-container"
+                         :class "column is-10"}
+   [:> Router]])
+
 (defn dashboard-app
   "The dashboard component"
   []
-  [:> router/BrowserRouter
+  [:> Router
    [:div
     [nav-bar]
-    [content-body]]])
+    [content-body]
+    [content-container]]])
 
 (defn start
     "Mounts the application root component in the DOM."
