@@ -37,67 +37,79 @@
       [:> Field
        [search]]]]]])
 
+(defn menu
+  []
+  [:div {:class "column is-2"}
+   [:> Menu
+    ;; yetibot
+    [:> MenuLabel "Yetibot"]
+    [:> MenuList
+     [:li
+      [:> NavLink {:exact true
+                   :to    "/"} "Dashboard"]]
+     [:li
+      [:> NavLink {:to "/history"} "History"]]
+     [:li
+      [:> NavLink {:to "/users"} "Users"]]
+     [:li
+      [:> NavLink {:to "/adapters"} "Adapters"]]
+     [:li
+      [:> NavLink {:to "/aliases"} "Aliases"]]
+     [:li
+      [:> NavLink {:to "/observers"} "Observers"]]
+     [:li
+      [:> NavLink {:to "/cron"} "Cron tasks"]]
+     [:li
+      [:> NavLink {:to "/repl"} "REPL"]]]
+
+    ;; links
+    [:> MenuLabel "Links"]
+    [:> MenuList
+     [:li
+      [:a {:href "https://yetibot.com"}
+       [:> Icon {:is-size "small"
+                 :is-align "left"
+                 :class "fa fa-external-link-alt"}]
+       "Yetibot.com"]]
+     [:li
+      [:a {:href "https://github.com/yetibot/yetibot"}
+       [:> Icon {:is-size "small"
+                 :is-align "left"
+                 :class "fa fa-external-link-alt"}]
+       "Github"]]
+     [:li
+      [:a {:href "https://yetibot.com/archives"}
+       [:> Icon {:is-size "small"
+                 :is-align "left"
+                 :class "fa fa-external-link-alt"}]
+       "Blog"]]
+     [:li
+      [:a {:href "https://yetibot.com/user-guide"}
+       [:> Icon {:is-size "small"
+                 :is-align "left"
+                 :class "fa fa-external-link-alt"}]
+       "Docs"]]]]])
+
+(defn content-container
+  []
+  [:div#content-container.column.is-10
+   [:> Route {:path "/" :exact true}]
+   [:> Route {:path "/adapters"}]
+   [:> Route {:path "/history"}]
+   [:> Route {:path "/users"}]
+   [:> Route {:path "/user/:id"}]
+   [:> Route {:path "/aliases"}]
+   [:> Route {:path "/observers"}]
+   [:> Route {:path "/cron"}]
+   [:> Route {:path "/repl"}]])
+
 (defn content-body
   "Content body"
   []
   [:> Container {:id "content/body"}
-   [:div {:class "columns"}
-    [:div {:class "column is-2"}
-     [:> Menu
-      ;; yetibot
-      [:> MenuLabel "Yetibot"]
-      [:> MenuList
-       [:li
-        [:> NavLink {:exact true
-                             :to    "/"} "Dashboard"]]
-       [:li
-        [:> NavLink {:to "/history"} "History"]]
-       [:li
-        [:> NavLink {:to "/users"} "Users"]]
-       [:li
-        [:> NavLink {:to "/adapters"} "Adapters"]]
-       [:li
-        [:> NavLink {:to "/aliases"} "Aliases"]]
-       [:li
-        [:> NavLink {:to "/observers"} "Observers"]]
-       [:li
-        [:> NavLink {:to "/cron"} "Cron tasks"]]
-       [:li
-        [:> NavLink {:to "/repl"} "REPL"]]]
-
-      ;; links
-      [:> MenuLabel "Links"]
-      [:> MenuList
-       [:li
-        [:a {:href "https://yetibot.com"}
-         [:> Icon {:is-size "small"
-                           :is-align "left"
-                           :class "fa fa-external-link-alt"}]
-         "Yetibot.com"]]
-       [:li
-        [:a {:href "https://github.com/yetibot/yetibot"}
-         [:> Icon {:is-size "small"
-                           :is-align "left"
-                           :class "fa fa-external-link-alt"}]
-         "Github"]]
-       [:li
-        [:a {:href "https://yetibot.com/archives"}
-         [:> Icon {:is-size "small"
-                           :is-align "left"
-                           :class "fa fa-external-link-alt"}]
-         "Blog"]]
-       [:li
-        [:a {:href "https://yetibot.com/user-guide"}
-         [:> Icon {:is-size "small"
-                           :is-align "left"
-                           :class "fa fa-external-link-alt"}]
-         "Docs"]]]]]]])
-
-(defn content-container
-  []
-  [:> Container {:id "content-container"
-                         :class "column is-10"}
-   [:> Router]])
+   [:div.columns
+    [menu]
+    [content-container]]])
 
 (defn dashboard-app
   "The dashboard component"
@@ -105,8 +117,7 @@
   [:> Router
    [:div
     [nav-bar]
-    [content-body]
-    [content-container]]])
+    [content-body]]])
 
 (defn start
     "Mounts the application root component in the DOM."
