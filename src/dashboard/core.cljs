@@ -1,6 +1,7 @@
 (ns dashboard.core
   (:require [reagent.core :as r]
             [reagent.dom :as rdom]
+            [re-frame.core :as rf]
             [taoensso.timbre :as log
              :refer-macros [log trace debug info warn error fatal report
                             logf tracef debugf infof warnf errorf fatalf reportf
@@ -8,7 +9,9 @@
             ["bloomer" :refer (Navbar Container NavbarStart NavbarBrand NavbarItem
                                       Icon MenuList MenuLabel Menu Field NavbarEnd)]
             ["react-router-dom" :refer (Route NavLink) :rename {BrowserRouter Router}]
-            [dashboard.components.search :refer [search]]))
+            [dashboard.components.search :refer [search]]
+            [dashboard.components.dashboard :refer [dashboard]]
+            [dashboard.events.init :as init]))
 
 (enable-console-print!)
 
@@ -17,6 +20,9 @@
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {:text "Hello world!"}))
+
+;; Imported components
+(def Dashboard (r/reactify-component dashboard))
 
 (defn nav-bar
   "Top nav bar"
@@ -93,7 +99,7 @@
 (defn content-container
   []
   [:div#content-container.column.is-10
-   [:> Route {:path "/" :exact true}]
+   [:> Route {:path "/" :exact true :component Dashboard}]
    [:> Route {:path "/adapters"}]
    [:> Route {:path "/history"}]
    [:> Route {:path "/users"}]
@@ -120,14 +126,15 @@
     [content-body]]])
 
 (defn start
-    "Mounts the application root component in the DOM."
-    []
-    (rdom/render [dashboard-app] (js/document.getElementById "app")))
+  "Mounts the application root component in the DOM."
+  []
+  (rdom/render [dashboard-app] (js/document.getElementById "app")))
 
 (defn ^:export init
   "Dashboard entrypoint which is called only once when `index.html` loads.
   It must be exported so it is available even in :advanced release builds."
   []
+  (rf/dispatch-sync [::init/init])
   (start))
 
 (defn on-js-reload []
