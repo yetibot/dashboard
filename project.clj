@@ -15,9 +15,14 @@
 
                  ;; react
                  [reagent "0.10.0"]
+                 [re-frame "0.12.0"]
 
                  ;; logging
                  [com.taoensso/timbre "4.10.0"]
+
+                 ;; graphql
+                 [re-graph "0.1.12"]
+                 [district0x/graphql-query "1.0.5"]
 
                  ;; These has to be explicitly specified as lein does not
                  ;; properly manage dependency version conflicts :
