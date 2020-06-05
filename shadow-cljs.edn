@@ -5,8 +5,12 @@
        {:dashboard {:target     :browser
                     :output-dir "resources/public/assets/js"
                     :asset-path "/assets/js"
+                    :dev {:closure-defines {"re_frame.trace.trace_enabled_QMARK_" true
+                                            "day8.re_frame.tracing.trace_enabled_QMARK_" true}}
                     :modules    {:dashboard {:init-fn dashboard.core/init}}
                     :devtools   {:http-root    "resources/public"
                                  :http-handler shadow.http.push-state/handle
                                  :http-port    8000
-                                 :after-load   dashboard.core/start}}}}
+                                 :after-load   dashboard.core/start
+                                 :preloads     [devtools.preload
+                                                day8.re-frame-10x.preload]}}}}

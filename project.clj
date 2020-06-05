@@ -11,6 +11,7 @@
                  ;; clojurescript and tooling
                  [org.clojure/clojurescript "1.10.520" :scope "provided"]
                  [binaryage/devtools "1.0.0"]
+                 [day8.re-frame/re-frame-10x "0.6.5"]
                  [thheller/shadow-cljs "2.8.94"]
 
                  ;; react
