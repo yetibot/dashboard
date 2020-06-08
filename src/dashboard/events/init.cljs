@@ -2,7 +2,8 @@
   (:require [re-frame.core :as rf]
             [re-graph.core :as re-graph]
             [dashboard.graphql.queries :as queries]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log]
+            [day8.re-frame.tracing :refer-macros [fn-traced]]))
 
 ;--------------------------------------------------------------
 ; Initialization
@@ -17,28 +18,36 @@
 ;--------------------------------------------------------------
 (rf/reg-event-fx
  ::init-re-graph
- (fn [_ _]
-   {:dispatch [::re-graph/init
-               {:http
-                {:url "https://public.yetibot.com/graphql"}}]}))
+ (fn-traced [_ _]
+            {:dispatch [::re-graph/init
+                        {:http
+                         {:url "https://public.yetibot.com/graphql"}
+                         :ws
+                         {:url nil}}]}))
 
 ;--------------------------------------------------------------
 ; Dashboard
 ;--------------------------------------------------------------
-(rf/reg-event-db
- :dashboard/stats
- (fn [_ [_ timezone-offset-hours]]
+(declare on-stats)
+
+(rf/reg-event-fx
+ :dashboard.stats/fetch
+ (fn-traced [_ [_ timezone-offset-hours]]
    {:dispatch [::re-graph/query
                queries/stats
-               {:timezone_offset_hours timezone-offset-hours}
-               [:dashboard/on-stats]]}))
+               {:timezone-offset-hours timezone-offset-hours}
+               on-stats]}))
+
+(defn on-stats
+  [{:keys [data errors]}]
+  (if errors
+    (rf/dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data" errors)])
+    (rf/dispatch [:dashboard.stats/store data])))
 
 (rf/reg-event-db
- :dashboard/on-stats
- (fn [db [_ {:keys [data errors] :as payload}]]
-   (if errors
-     {:dispatch [::on-error :dashboard/stats payload]}
-     {:db (assoc db :dashboard/stats data)})))
+ :dashboard.stats/store
+ (fn-traced [db [_ data]]
+            (assoc db :dashboard/stats data)))
 
 ;--------------------------------------------------------------
 ; Generic error-handling
