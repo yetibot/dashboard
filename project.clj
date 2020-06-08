@@ -20,7 +20,7 @@
                  [com.taoensso/timbre "4.10.0"]
 
                  ;; graphql
-                 [re-graph "0.1.12"]
+                 [re-graph "0.1.13" :exclusions [re-graph.hato]]
                  [district0x/graphql-query "1.0.5"]
 
                  ;; These has to be explicitly specified as lein does not
