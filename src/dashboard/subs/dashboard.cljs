@@ -2,6 +2,11 @@
   (:require [re-frame.core :as rf]))
 
 (rf/reg-sub
+ :dashboard.stats/uptime
+ (fn [db _]
+   (get-in db [:dashboard/stats :uptime])))
+
+(rf/reg-sub
  :dashboard.stats/adapter-count
  (fn [db _]
    (get-in db [:dashboard/stats :adapter-count])))
