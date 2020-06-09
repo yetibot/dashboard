@@ -3,9 +3,13 @@
             [re-graph.core :as re-graph]
             [dashboard.graphql.queries :as queries]
             [taoensso.timbre :as log]
+            [cognitect.transit :as t]
+            [clojure.walk]
             [day8.re-frame.tracing :refer-macros [fn-traced]]))
 
 (def ^:const graphql-endpoint "https://public.yetibot.com/graphql")
+(def json-reader (t/reader :json))
+
 ;--------------------------------------------------------------
 ; Initialization
 ;--------------------------------------------------------------
@@ -19,7 +23,7 @@
 ;--------------------------------------------------------------
 (rf/reg-event-fx
  ::init-re-graph
- (fn-traced [_ _]
+ (fn [_ _]
             {:dispatch [::re-graph/init
                         {:http
                          {:url graphql-endpoint
@@ -30,26 +34,23 @@
 ;--------------------------------------------------------------
 ; Dashboard
 ;--------------------------------------------------------------
-(declare on-stats)
-
 (rf/reg-event-fx
  :dashboard.stats/fetch
- (fn-traced [_ [_ timezone-offset-hours]]
+ (fn [_ [_ timezone-offset-hours]]
    {:dispatch [::re-graph/query
                queries/stats
-               {:timezone-offset-hours timezone-offset-hours}
-               on-stats]}))
+               {:timezone_offset_hours timezone-offset-hours}
+               [:dashboard.stats/store]]}))
 
-(defn on-stats
-  [{:keys [data errors]}]
-  (if errors
-    (rf/dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data" errors)])
-    (rf/dispatch [:dashboard.stats/store data])))
-
-(rf/reg-event-db
+(rf/reg-event-fx
  :dashboard.stats/store
- (fn-traced [db [_ data]]
-            (assoc db :dashboard/stats data)))
+ (fn [{:keys [db]} [_ payload]]
+            (let [data (-> (t/read json-reader payload)
+                           (clojure.walk/keywordize-keys)
+                           (get-in [:data :stats]))]
+              (if (nil? data)
+                {:dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data")]}
+                {:db (assoc db :dashboard/stats data)}))))
 
 ;--------------------------------------------------------------
 ; Generic error-handling
