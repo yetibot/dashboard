@@ -23,8 +23,9 @@
                  [re-graph "0.1.13" :exclusions [re-graph.hato]]
                  [district0x/graphql-query "1.0.5"]
 
-                 ;; json encoder/decoder
+                 ;; utils
                  [com.cognitect/transit-cljs "0.8.264"]
+                 [camel-snake-kebab "0.4.1"]
 
                  ;; These has to be explicitly specified as lein does not
                  ;; properly manage dependency version conflicts :

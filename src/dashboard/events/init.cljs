@@ -1,6 +1,8 @@
 (ns dashboard.events.init
   (:require [re-frame.core :as rf]
             [re-graph.core :as re-graph]
+            [camel-snake-kebab.core :as csk]
+            [camel-snake-kebab.extras :as cske]
             [dashboard.graphql.queries :as queries]
             [taoensso.timbre :as log]
             [cognitect.transit :as t]
@@ -8,7 +10,10 @@
             [day8.re-frame.tracing :refer-macros [fn-traced]]))
 
 (def ^:const graphql-endpoint "https://public.yetibot.com/graphql")
+
 (def json-reader (t/reader :json))
+
+(def kebab-case-keywords (partial cske/transform-keys csk/->kebab-case-keyword))
 
 ;--------------------------------------------------------------
 ; Initialization
@@ -47,6 +52,7 @@
  (fn [{:keys [db]} [_ payload]]
             (let [data (-> (t/read json-reader payload)
                            (clojure.walk/keywordize-keys)
+                           kebab-case-keywords
                            (get-in [:data :stats]))]
               (if (nil? data)
                 {:dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data")]}
