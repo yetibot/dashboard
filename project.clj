@@ -10,8 +10,6 @@
 
                  ;; clojurescript and tooling
                  [org.clojure/clojurescript "1.10.520" :scope "provided"]
-                 [binaryage/devtools "1.0.0"]
-                 [day8.re-frame/re-frame-10x "0.6.5"]
                  [thheller/shadow-cljs "2.8.94"]
 
                  ;; react
@@ -22,8 +20,11 @@
                  [com.taoensso/timbre "4.10.0"]
 
                  ;; graphql
-                 [re-graph "0.1.12"]
+                 [re-graph "0.1.13" :exclusions [re-graph.hato]]
                  [district0x/graphql-query "1.0.5"]
+
+                 ;; json encoder/decoder
+                 [com.cognitect/transit-cljs "0.8.264"]
 
                  ;; These has to be explicitly specified as lein does not
                  ;; properly manage dependency version conflicts :
@@ -33,4 +34,7 @@
 
   :source-paths ["src"]
 
-  :profiles {:dev {}})
+  :profiles {:dev
+             {:dependencies [[binaryage/devtools "1.0.0"]
+                             [day8.re-frame/re-frame-10x "0.6.5"]
+                             [day8.re-frame/tracing "0.5.5"]]}})
