@@ -5,6 +5,7 @@
             [taoensso.timbre :as log]
             [day8.re-frame.tracing :refer-macros [fn-traced]]))
 
+(def ^:const graphql-endpoint "https://public.yetibot.com/graphql")
 ;--------------------------------------------------------------
 ; Initialization
 ;--------------------------------------------------------------
@@ -21,7 +22,8 @@
  (fn-traced [_ _]
             {:dispatch [::re-graph/init
                         {:http
-                         {:url "https://public.yetibot.com/graphql"}
+                         {:url graphql-endpoint
+                          :impl {:with-credentials? false}}
                          :ws
                          {:url nil}}]}))
 
