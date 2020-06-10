@@ -96,9 +96,9 @@
                  :class "fa fa-external-link-alt"}]
        "Docs"]]]]])
 
-(defn content-container
+(defn routes
   []
-  [:div#content-container.column.is-10
+  [:<>
    [:> Route {:path "/" :exact true :component Dashboard}]
    [:> Route {:path "/adapters"}]
    [:> Route {:path "/history"}]
@@ -114,9 +114,10 @@
   []
   [:> Container {:id "content-body"}
    [:div.columns
-    [:div {:class "column is-2"}
+    [:div.column.is-2
      [menu]]
-    [content-container]]])
+    [:div#content-container.column.is-10
+     [routes]]]])
 
 (defn dashboard-app
   "The dashboard component"
