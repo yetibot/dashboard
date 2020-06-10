@@ -112,7 +112,7 @@
 (defn content-body
   "Content body"
   []
-  [:> Container {:id "content/body"}
+  [:> Container {:id "content-body"}
    [:div.columns
     [menu]
     [content-container]]])
