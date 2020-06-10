@@ -45,7 +45,7 @@
 
 (defn menu
   []
-  [:div {:class "column is-2"}
+  [:div.column
    [:> Menu
     ;; yetibot
     [:> MenuLabel "Yetibot"]
@@ -116,7 +116,7 @@
    [:div.columns
     [:div.column.is-2
      [menu]]
-    [:div#content-container.column.is-10
+    [:div#content-container.column
      [routes]]]])
 
 (defn dashboard-app
