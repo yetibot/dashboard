@@ -114,7 +114,8 @@
   []
   [:> Container {:id "content-body"}
    [:div.columns
-    [menu]
+    [:div {:class "column is-2"}
+     [menu]]
     [content-container]]])
 
 (defn dashboard-app
