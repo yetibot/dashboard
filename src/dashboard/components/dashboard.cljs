@@ -11,7 +11,7 @@
             [dashboard.components.search :refer [search]]
             [dashboard.subs.dashboard]))
 
-(defn stat-display
+(defn display
   [label value]
   [:> Tile {:is-child "true" :class "box"}
     [:> Title @value]
@@ -20,7 +20,12 @@
 (defn expandable-stat-display
   [label value path]
   [:> NavLink {:class "tile is-parent is-4" :to path}
-   [stat-display label value]])
+   [display label value]])
+
+(defn stat-display
+  [label value]
+  [:> Tile {:is-size 4 :is-parent "true"}
+   [display label value]])
 
 (defn dashboard
   []
