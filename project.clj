@@ -33,7 +33,19 @@
                  [com.google.javascript/closure-compiler-unshaded "v20191027"]
                  [org.clojure/google-closure-library "0.0-20191016-6ae1f72f"]]
 
+  :plugins [[lein-shell "0.5.0"]]
+
   :source-paths ["src"]
+
+  :aliases {"compile" ["do"
+                       ["shell" "npm" "install"]
+                       ["run" "-m" "shadow.cljs.devtools.cli" "compile" ":dashboard"]]
+            "watch" ["do"
+                     ["run" "-m" "shadow.cljs.devtools.cli" "watch" ":dashboard"]]
+            "cljs-repl" ["do"
+                         ["run" "-m" "shadow.cljs.devtools.cli" "cljs-repl" ":dashboard"]]
+            "release" ["do"
+                       ["run" "-m" "shadow.cljs.devtools.cli" "release" ":dashboard"]]}
 
   :profiles {:dev
              {:dependencies [[binaryage/devtools "1.0.0"]
