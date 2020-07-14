@@ -37,15 +37,15 @@
 
   :source-paths ["src"]
 
-  :aliases {"compile" ["do"
-                       ["shell" "npm" "install"]
-                       ["run" "-m" "shadow.cljs.devtools.cli" "compile" ":dashboard"]]
+  :aliases {"compile-cljs" ["do"
+                            ["shell" "npm" "install"]
+                            ["run" "-m" "shadow.cljs.devtools.cli" "compile" ":dashboard"]]
             "watch" ["do"
                      ["run" "-m" "shadow.cljs.devtools.cli" "watch" ":dashboard"]]
             "cljs-repl" ["do"
                          ["run" "-m" "shadow.cljs.devtools.cli" "cljs-repl" ":dashboard"]]
-            "release" ["do"
-                       ["run" "-m" "shadow.cljs.devtools.cli" "release" ":dashboard"]]}
+            "release-cljs" ["do"
+                            ["run" "-m" "shadow.cljs.devtools.cli" "release" ":dashboard"]]}
 
   :profiles {:dev
              {:dependencies [[binaryage/devtools "1.0.0"]
