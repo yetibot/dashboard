@@ -29,12 +29,11 @@
 (rf/reg-event-fx
  ::init-re-graph
  (fn [_ _]
-            {:dispatch [::re-graph/init
-                        {:http
-                         {:url graphql-endpoint
-                          :impl {:with-credentials? false}}
-                         :ws
-                         {:url nil}}]}))
+   {:dispatch [::re-graph/init {:http
+                                {:url graphql-endpoint
+                                 :impl {:with-credentials? false}}
+                                :ws
+                                {:url nil}}]}))
 
 ;--------------------------------------------------------------
 ; Dashboard
