@@ -40,19 +40,20 @@
         observer-count (rf/subscribe [:dashboard.stats/observer-count])
         cront-count (rf/subscribe [:dashboard.stats/cron-count])
         uptime (rf/subscribe [:dashboard.stats/uptime])]
-    [:div
-     [:> Hero {:is-bold "true" :is-color "info" :is-size "small"}
-      [:> HeroBody
+    (fn []
+      [:div
+       [:> Hero {:is-bold "true" :is-color "info" :is-size "small"}
+        [:> HeroBody
        [:> Title "Dashboard"]
        [:> Subtitle (str "Uptime " @uptime)]]]
-     [:div.tiles
-      [:> Tile {:is-ancestor "true" :has-text-align "centered"}
-       [expandable-stat-display "Adapters" adapter-count "/adapters"]
-       [expandable-stat-display "Commands" command-count "/history?co=1"]
-       [stat-display "Commands today" command-count-today]
-       [expandable-stat-display "User" user-count "/users"]
-       [expandable-stat-display "History items" history-count "/history"]
-       [stat-display "History items today" history-count-today]
-       [expandable-stat-display "Aliases" alias-count "/aliases"]
-       [expandable-stat-display "Observers" observer-count "/observers"]
-       [expandable-stat-display "Cron tasks" cront-count "/cron"]]]]))
+       [:div.tiles
+        [:> Tile {:is-ancestor "true" :has-text-align "centered"}
+         [expandable-stat-display "Adapters" adapter-count "/adapters"]
+         [expandable-stat-display "Commands" command-count "/history?co=1"]
+         [stat-display "Commands today" command-count-today]
+         [expandable-stat-display "User" user-count "/users"]
+         [expandable-stat-display "History items" history-count "/history"]
+         [stat-display "History items today" history-count-today]
+         [expandable-stat-display "Aliases" alias-count "/aliases"]
+         [expandable-stat-display "Observers" observer-count "/observers"]
+         [expandable-stat-display "Cron tasks" cront-count "/cron"]]]])))
