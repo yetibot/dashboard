@@ -9,7 +9,8 @@
             [clojure.walk]
             [day8.re-frame.tracing :refer-macros [fn-traced]]))
 
-(def ^:const graphql-endpoint "https://public.yetibot.com/graphql")
+#_(def ^:const graphql-endpoint "https://public.yetibot.com/graphql")
+(def ^:const graphql-endpoint "http://localhost:3003/graphql")
 
 (def json-reader (t/reader :json))
 
@@ -56,6 +57,32 @@
               (if (nil? data)
                 {:dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data")]}
                 {:db (assoc db :dashboard/stats data)}))))
+
+;--------------------------------------------------------------
+; History
+;--------------------------------------------------------------
+(rf/reg-event-fx
+ :dashboard.history/fetch
+ (fn [_ [_ timezone-offset-hours]]
+   {:dispatch [::re-graph/query
+               queries/history
+               {:commands_only true
+                :yetibot_only true
+                :search_query ""
+                :timezone_offset_hours timezone-offset-hours}
+               [:dashboard.history/store]]}))
+
+(rf/reg-event-fx
+ :dashboard.history/store
+ (fn [{:keys [db]} [_ payload]]
+   (println payload)
+   (let [data (-> (t/read json-reader payload)
+                             (clojure.walk/keywordize-keys)
+                             kebab-case-keywords
+                             (get-in [:data]))]
+     (if (nil? data)
+       {:dispatch [::on-error :dashboard/error (str "An error occured while fetching statistics data")]}
+       {:db (assoc db :dashboard/stats data)}))))
 
 ;--------------------------------------------------------------
 ; Generic error-handling

@@ -11,6 +11,7 @@
             ["react-router-dom" :refer (Route NavLink) :rename {BrowserRouter Router}]
             [dashboard.components.search :refer [search]]
             [dashboard.components.dashboard :refer [dashboard]]
+            [dashboard.components.history :refer [history]]
             [dashboard.events.init :as init]))
 
 (enable-console-print!)
@@ -23,6 +24,7 @@
 
 ;; Imported components
 (def Dashboard (r/reactify-component dashboard))
+(def History (r/reactify-component history))
 
 (defn nav-bar
   "Top nav bar"
@@ -54,7 +56,8 @@
       [:> NavLink {:exact true
                    :to    "/"} "Dashboard"]]
      [:li
-      [:> NavLink {:to "/history"} "History"]]
+      [:> NavLink {:exact true
+                   :to "/history"} "History"]]
      [:li
       [:> NavLink {:to "/users"} "Users"]]
      [:li
@@ -101,7 +104,7 @@
   [:<>
    [:> Route {:path "/" :exact true :component Dashboard}]
    [:> Route {:path "/adapters"}]
-   [:> Route {:path "/history"}]
+   [:> Route {:path "/history" :exact true :component History}]
    [:> Route {:path "/users"}]
    [:> Route {:path "/user/:id"}]
    [:> Route {:path "/aliases"}]
