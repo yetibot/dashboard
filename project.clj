@@ -47,15 +47,36 @@
 
   :source-paths ["src"]
 
-  :aliases {"compile-cljs" ["do"
-                            ["shell" "npm" "install"]
-                            ["run" "-m" "shadow.cljs.devtools.cli" "compile" ":dashboard"]]
-            "watch" ["do"
-                     ["run" "-m" "shadow.cljs.devtools.cli" "watch" ":dashboard"]]
-            "cljs-repl" ["do"
-                         ["run" "-m" "shadow.cljs.devtools.cli" "cljs-repl" ":dashboard"]]
-            "release-cljs" ["do"
-                            ["run" "-m" "shadow.cljs.devtools.cli" "release" ":dashboard"]]}
+  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
+
+  :shadow-cljs {:nrepl {:port 8777}
+                
+                :builds {:dashboard {:target :browser
+                                     :output-dir "resources/public/js/compiled"
+                                     :asset-path "/js/compiled"
+                                     :modules {:app {:init-fn dashboard.core/init
+                                                     :preloads [devtools.preload
+                                                                day8.re-frame-10x.preload]}}
+                                     :dev {:compiler-options {:closure-defines {re-frame.trace.trace-enabled? true
+                                                                                day8.re-frame.tracing.trace-enabled? true}}}
+                                     :release {:build-options
+                                               {:ns-aliases
+                                                {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}
+                        
+                                     :devtools {:http-root "resources/public"
+                                                :http-port 8280}}}}
+
+  :aliases {"cljs-repl" [["with-profile" "dev" "do"
+                            ["shadow" "cljs-repl" "dashboard"]]]
+
+            "watch"        ["with-profile" "dev" "do"
+                            ["shadow" "watch" "dashboard"]]
+            
+            "compile-cljs" ["with-profile" "dev" "do"
+                            ["shadow" "compile" "dashboard"]]
+           
+            "release-cljs"      ["with-profile" "prod" "do"
+                                 ["shadow" "release" "dashboard"]]}
 
   :profiles {:dev
              {:dependencies [[binaryage/devtools "1.0.0"]
