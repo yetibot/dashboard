@@ -31,6 +31,16 @@
                  [com.cognitect/transit-cljs "0.8.264"]
                  [camel-snake-kebab "0.4.1"]]
 
+  :npm-deps [[react "16.13.1"]
+             ["bloomer" "0.6.5"]
+             ["bulma" "0.8.2"]
+             ["bulma-checkradio" "1.1.1"]
+             ["create-react-class" "15.6.3"]
+             ["highlight.js" "9.18.1"]
+             ["react" "16.13.1"]
+             ["react-dom" "16.13.1"]
+             ["react-highlight.js" "1.0.7"]
+             ["react-router-dom" "5.1.2"]]
 
   :plugins [[lein-shadow "0.3.1"]
             [lein-shell "0.5.0"]]
