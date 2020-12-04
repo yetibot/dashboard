@@ -9,12 +9,16 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
 
                  ;; clojurescript and tooling
-                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.597" :scope "provided"
+                  :exclusions [com.google.javascript/closure-compiler-unshaded
+                               org.clojure/google-closure-library
+                               org.clojure/google-closure-library-third-party]]
                  [thheller/shadow-cljs "2.8.94"]
                  
                  ;; react
                  [reagent "0.10.0"]
-                 [re-frame "0.12.0"]
+                 [re-frame "1.1.2"]
+                 [day8.re-frame/tracing "0.6.0"]
 
                  ;; logging
                  [com.taoensso/timbre "4.10.0"]
@@ -25,13 +29,8 @@
 
                  ;; utils
                  [com.cognitect/transit-cljs "0.8.264"]
-                 [camel-snake-kebab "0.4.1"]
+                 [camel-snake-kebab "0.4.1"]]
 
-                 ;; These has to be explicitly specified as lein does not
-                 ;; properly manage dependency version conflicts :
-                 ;; https://github.com/thheller/shadow-cljs/issues/488#issuecomment-486732296
-                 [com.google.javascript/closure-compiler-unshaded "v20191027"]
-                 [org.clojure/google-closure-library "0.0-20191016-6ae1f72f"]]
 
   :plugins [[lein-shell "0.5.0"]]
 
