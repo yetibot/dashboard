@@ -32,7 +32,8 @@
                  [camel-snake-kebab "0.4.1"]]
 
 
-  :plugins [[lein-shell "0.5.0"]]
+  :plugins [[lein-shadow "0.3.1"]
+            [lein-shell "0.5.0"]]
 
   :source-paths ["src"]
 
