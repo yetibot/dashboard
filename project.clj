@@ -79,6 +79,8 @@
                                  ["shadow" "release" "dashboard"]]}
 
   :profiles {:dev
-             {:dependencies [[binaryage/devtools "1.0.0"]
-                             [day8.re-frame/re-frame-10x "0.6.5"]
-                             [day8.re-frame/tracing "0.5.5"]]}})
+             {:dependencies [[binaryage/devtools "1.0.2"]
+                             [day8.re-frame/re-frame-10x "0.7.0"]]
+              :source-paths ["dev"]}
+
+             :prod {}})
