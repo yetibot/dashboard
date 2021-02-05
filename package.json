@@ -22,8 +22,10 @@
     "bulma": "^0.8.2",
     "bulma-checkradio": "^1.1.1",
     "create-react-class": "^15.6.3",
+    "highlight.js": "9.18.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-highlight.js": "1.0.7",
     "react-router-dom": "^5.1.2"
   }
 }
