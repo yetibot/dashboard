@@ -130,7 +130,7 @@
     [nav-bar]
     [content-body]]])
 
-(defn start
+(defn ^:dev/after-load start
   "Mounts the application root component in the DOM."
   []
   (rdom/render [dashboard-app] (js/document.getElementById "app")))
