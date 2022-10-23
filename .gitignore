@@ -11,3 +11,5 @@ pom.xml
 .lein-plugins/
 .repl
 .nrepl-port
+node_modules/
+package-lock.json
