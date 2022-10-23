@@ -27,5 +27,8 @@
     "react-dom": "^16.13.1",
     "react-highlight.js": "1.0.7",
     "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.20.6"
   }
 }
